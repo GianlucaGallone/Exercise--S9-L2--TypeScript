@@ -13,35 +13,38 @@
 </head>
 <body>
     <div class="container">
-        <p>Benvenuto gentile cliente. <br>Selezioni l'account con cui fare operazioni.</p>
-        <button type="button" name="click_saldo">Mostra Saldo</button>
-        <p name="saldo"></p>
-        <p name="transaction"></p>
-
+        <div class="welcome">
+            <p>Benvenuto gentile cliente. <br>Selezioni l'account con cui fare operazioni.</p>
+            <button type="button" name="click_saldo">Mostra Saldo</button>
+            <p name="saldo"></p>
+            <p name="transaction"></p>
+        </div>
         <hr width="100%">
-        <!-- Account Mother -->
+        
+        <div class="account-1">
+            <!-- Account Mother -->
+            <p>Account 1: Benvenuta Signora ...</p>
+            <input type="input" name="versa" placeholder="Inserisci Versamento">
+            <button type="button" name="click_versa" onclick="versaMother()">Versa</button>
+            <p name="versa"></p>
 
-        <p>Account 1: Benvenuta Signora ...</p>
-        <input type="input" name="versa" placeholder="Inserisci Versamento">
-        <button type="button" name="click_versa" onclick="versaMother()">Versa</button>
-        <p name="versa"></p>
-
-        <input type="input" name="preleva" placeholder="Inserisci Prelievo">
-        <button type="button" name="click_preleva" onclick="prelevaMother()">Preleva</button>
-        <p name="preleva"></p>
-
+            <input type="input" name="preleva" placeholder="Inserisci Prelievo">
+            <button type="button" name="click_preleva" onclick="prelevaMother()">Preleva</button>
+            <p name="preleva"></p>
+        </div>
         <hr width="100%">
-        <!-- Account Son -->
 
-        <p>Account 2: Benvenuto Signor ...</p>
-        <input type="input" name="versaSon" placeholder="Inserisci Versamento">
-        <button type="button" name="versaSon" onclick="versaSon()">Versa</button>
-        <p name="versaSon"></p>
+        <div class="account-2">
+            <!-- Account Son -->
+            <p>Account 2: Benvenuto Signor ...</p>
+            <input type="input" name="versaSon" placeholder="Inserisci Versamento">
+            <button type="button" name="versaSon" onclick="versaSon()">Versa</button>
+            <p name="versaSon"></p>
 
-        <input type="input" name="prelevaSon" placeholder="Inserisci Prelievo">
-        <button type="button" name="prelevaSon" onclick="prelevaSon()">Preleva</button>
-        <p name="prelevaSon"></p>
-
+            <input type="input" name="prelevaSon" placeholder="Inserisci Prelievo">
+            <button type="button" name="prelevaSon" onclick="prelevaSon()">Preleva</button>
+            <p name="prelevaSon"></p>
+        </div>
     </div>
 
     <script src="assets/js/script.js"></script>
