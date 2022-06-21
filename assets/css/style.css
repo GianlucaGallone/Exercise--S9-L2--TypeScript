@@ -1,0 +1,15 @@
+body {
+    background-color: lightcyan;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+body > button, input, div {
+    margin: 10px 0; 
+}
+#scoreCont p {
+    margin-bottom: 10px;
+}
