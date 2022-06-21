@@ -12,7 +12,36 @@
     <link href="https://cdn.lineicons.com/3.0/lineicons.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container"></div>
+    <div class="container">
+        <p>Benvenuto gentile cliente. <br>Selezioni l'account con cui fare operazioni.</p>
+        <button type="button" name="click_saldo">Mostra Saldo</button>
+        <p name="saldo"></p>
+
+        <hr width="100%">
+        <!-- Account Mother -->
+
+        <p>Account 1: Benvenuta Signora ...</p>
+        <input type="input" name="versa" placeholder="Inserisci Versamento">
+        <button type="button" name="click_versa" onclick="versaMother()">Versa</button>
+        <p name="versa"></p>
+
+        <input type="input" name="preleva" placeholder="Inserisci Prelievo">
+        <button type="button" name="click_preleva" onclick="prelevaMother()">Preleva</button>
+        <p name="preleva"></p>
+
+        <hr width="100%">
+        <!-- Account Son -->
+
+        <p>Account 2: Benvenuto Signor ...</p>
+        <input type="input" name="versaSon" placeholder="Inserisci Versamento">
+        <button type="button" name="versaSon" onclick="versaSon()">Versa</button>
+        <p name="versa"></p>
+
+        <input type="input" name="prelevaSon" placeholder="Inserisci Prelievo">
+        <button type="button" name="prelevaSon" onclick="prelevaSon()">Preleva</button>
+        <p name="prelevaSon"></p>
+
+    </div>
 
     <script src="assets/js/script.js"></script>
 </body>
