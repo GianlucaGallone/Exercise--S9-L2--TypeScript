@@ -96,8 +96,6 @@ function versaMother(): any {
     }
 }
 
-
-
 function prelevaMother(): any {
     if (INPUT_PRELEVA !== null) {
         console.log(`${INPUT_PRELEVA.value}`);
