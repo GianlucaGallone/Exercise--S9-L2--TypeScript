@@ -5,71 +5,77 @@ const CONT = document.querySelector('.container') as HTMLDivElement;
 /* ------------- Schermata Benvenuto ------------- */
 
 const BTN_SALDO = document.querySelector('button[name="click_saldo"]') as HTMLButtonElement;
-const P_SALDO = document.querySelector('p[name="saldo"]') as HTMLElement;
-const P_TRANS = document.querySelector('p[name="transaction"]') as HTMLElement;
+const SPAN_SALDO_1 = document.querySelector('span[name="saldo-1"]') as HTMLElement;
+const SPAN_SALDO_2  = document.querySelector('span[name="saldo-2"]') as HTMLElement;
+const SPAN_SALDO_TOT = document.querySelector('span[name="saldo-tot"]') as HTMLElement;
+const SPAN_TRANS = document.querySelector('span[name="transaction"]') as HTMLElement;
 
 /* ------------- Account Mother ------------- */
 
-const INPUT_VERSA = document.querySelector('input[name="versa"]') as HTMLInputElement;
-const BTN_VERSA = document.querySelector('button[name="click_versa"]') as HTMLButtonElement;
-const P_VERSA = document.querySelector('p[name="versa"]') as HTMLElement;     
-
-const INPUT_PRELEVA = document.querySelector('input[name="preleva"]') as HTMLInputElement;
+const INP_VERSA = document.querySelector('input[name="versa"]') as HTMLInputElement;
+const BTN_VERSA = document.querySelector('button[name="click_versa"]') as HTMLButtonElement;    
+const INP_PRELEVA = document.querySelector('input[name="preleva"]') as HTMLInputElement;
 const BTN_PRELEVA = document.querySelector('button[name="click_preleva"]') as HTMLButtonElement;
-const P_PRELEVA = document.querySelector('p[name="preleva"]') as HTMLElement; 
 
 /* ------------- Account Son ------------- */
 
 const INP_VERSA_SON = document.querySelector('input[name="versaSon"]') as HTMLInputElement;
-const BTN_VERSA_SON = document.querySelector('button[name="versaSon"]') as HTMLButtonElement;
-const P_VERSA_SON = document.querySelector('p[name="versaSon"]') as HTMLElement;     
-
+const BTN_VERSA_SON = document.querySelector('button[name="versaSon"]') as HTMLButtonElement;   
 const INP_PRELEVA_SON = document.querySelector('input[name="prelevaSon"]') as HTMLInputElement;
 const BTN_PRELEVA_SON = document.querySelector('button[name="prelevaSon"]') as HTMLButtonElement;
-const P_PRELEVA_SON = document.querySelector('p[name="prelevaSon"]') as HTMLElement; 
 
 //#endregion
 
-// al caricamento della pagina lancio evento, se faccio click sul button, mostra saldo disponibile
-document.addEventListener('DOMContentLoaded', function() {
-
-    if(P_SALDO !== null){
+document.addEventListener('DOMContentLoaded', () => {
+    // al caricamento della pagina, se gli span dei valori numerici sono vuoti, aggiungi on click che scrive saldo negli span
+    if(SPAN_SALDO_1 && SPAN_SALDO_2 && SPAN_SALDO_TOT !== null){
         BTN_SALDO.addEventListener('click', function(){
-            P_SALDO.innerHTML = 
-                `Saldo Account 1:  ${motherAccount.infoSaldo()} Euro
-                 Saldo Account 2: ${sonAccount.infoSaldo()} Euro
-                 Saldo totale: ${motherAccount.infoSaldo()+sonAccount.infoSaldo()} Euro`;
+            mostraSaldo();
         });
-    }
-})
+    }    
+});
 
 /* --------------------------------- */
 
 class BankAccount {
     static transCount: number = 0; // n. transazioni effettuate da entrambi gli account
-    protected saldoConto: number; 
+    saldoConto: number = 0; 
 
     constructor(saldoConto: number) {
         this.saldoConto = saldoConto;
-        /* BankAccount.transCount++; */
-    }
-    public infoSaldo(): number { // dato di ritorno del saldoConto
-        return this.saldoConto;
     }
     static contatore() { // metodo static della classe
         return BankAccount.transCount;
     }
-    
+
+    //definisco metodo della classe da riportare negli oggetti creati
+    versa(cifra: number): void {
+        this.saldoConto = this.saldoConto + cifra;
+    }
+    preleva(cifra: number): void {
+        // se il valore inserito e' inferiore/uguale al saldo iniziale, operazione normale
+        if (cifra <= this.saldoConto) {
+            this.saldoConto = this.saldoConto - cifra;
+        } else {
+            alert(`Puoi prelevare massimo ${this.saldoConto} Euro`);
+        }
+        if (this.saldoConto <= 0) {
+            alert(`Hai terminato il budget. Saldo: ${this.saldoConto} Euro`);
+        }
+    }
 }
 
 class MotherAccount extends BankAccount {
-    
+
     constructor(saldoConto: number) {
         super(saldoConto);            // proprieta' ereditate
         this.saldoConto = saldoConto; // saldoConto sara' uguale all'arg1 al momento della creazione oggetto
     }
-    public infoSaldo(): number {
-        return this.saldoConto;
+    versa(cifra: number): void {
+        this.saldoConto = this.saldoConto + cifra;
+    }
+    preleva(cifra: number): void {
+        this.saldoConto = this.saldoConto - cifra;
     }
 }
 
@@ -79,56 +85,71 @@ class SonAccount extends BankAccount {
         super(saldoConto); // proprieta' ereditate
         this.saldoConto = saldoConto;
     }
-    public infoSaldo(): number {
-        return this.saldoConto;
+    versa(cifra: number): void {
+        this.saldoConto = this.saldoConto + cifra;
+    }
+    preleva(cifra: number): void {
+        this.saldoConto = this.saldoConto - cifra;
     }
 }
 
 /* ------------------ Account Mother -------------------- */
-
-function versaMother(): any {
-    if (INPUT_VERSA !== null) {
-        console.log(`${INPUT_VERSA.value}`);
-        let result = `Nuovo saldo: ${motherAccount.infoSaldo() + (+INPUT_VERSA.value*0.9)} Euro`; // budget iniziale + (prelievo -10%); 
-        P_VERSA.innerHTML = result;
-        BankAccount.transCount++;
-        P_TRANS.innerHTML = `Numero Transazioni: ${BankAccount.transCount}`;
+    
+function versaMother() {
+    if (INP_VERSA !== null) {
+        let valore = INP_VERSA.value; 
+        // accedero' ad oggetto.metodo(valore input)
+        motherAccount.versa(+valore*0.9);
+        mostraSaldo();
+        aumentaCounter();
     }
 }
 
-function prelevaMother(): any {
-    if (INPUT_PRELEVA !== null) {
-        console.log(`${INPUT_PRELEVA.value}`);
-        let result = `Nuovo saldo: ${motherAccount.infoSaldo() - (+INPUT_PRELEVA.value*0.9)} Euro`; // budget iniziale - (prelievo -10%);
-        P_PRELEVA.innerHTML = result;
-        BankAccount.transCount++;
-        P_TRANS.innerHTML = `Numero Transazioni: ${BankAccount.transCount}`;
+function prelevaMother() {
+
+    if (INP_PRELEVA !== null) {
+        let valore = INP_PRELEVA.value; 
+        motherAccount.preleva(+valore*0.9);
+        mostraSaldo();
+        aumentaCounter();
     }
 }
 
 /* ------------------ Account Son -------------------- */
 
-function versaSon(): any {
+function versaSon() {
     if (INP_VERSA_SON !== null) {
-        console.log(`${INP_VERSA_SON.value}`);
-        let result = `Nuovo saldo: ${sonAccount.infoSaldo() + +INP_VERSA_SON.value} Euro`; // budget iniziale + prelievo;
-        P_VERSA_SON.innerHTML = result;
-        BankAccount.transCount++;
-        P_TRANS.innerHTML = `Numero Transazioni: ${BankAccount.transCount}`;
+        let valore = INP_VERSA_SON.value; 
+        sonAccount.versa(+valore);
+        mostraSaldo();
+        aumentaCounter();
     }
 }
 
-function prelevaSon(): any {
+function prelevaSon() {
     if (INP_PRELEVA_SON !== null) {
-        console.log(`${INP_PRELEVA_SON.value}`);
-        let result = `Nuovo saldo: ${sonAccount.infoSaldo() - +INP_PRELEVA_SON.value} Euro`; // budget iniziale - prelievo;
-        P_PRELEVA_SON.innerHTML = result;
-        BankAccount.transCount++;
-        P_TRANS.innerHTML = `Numero Transazioni: ${BankAccount.transCount}`;
+        let valore = INP_PRELEVA_SON.value; 
+        sonAccount.preleva(+valore);
+        mostraSaldo();
+        aumentaCounter();
     }
 }
 
-// inizializzo 2 account con 5000 E 1000 euro dentro
+/* ------------ mostraSaldo - aumentaCounter ------------- */
+
+function mostraSaldo() {
+    // dopo ogni operazione il saldoConto dell'oggetto verra' modificato
+    SPAN_SALDO_1.innerHTML = motherAccount.saldoConto.toString();
+    SPAN_SALDO_2.innerHTML = sonAccount.saldoConto.toString();
+    SPAN_SALDO_TOT.innerHTML = ( motherAccount.saldoConto + sonAccount.saldoConto ).toString();
+}
+
+function aumentaCounter() {
+    BankAccount.transCount++;
+    SPAN_TRANS.innerHTML = `${BankAccount.transCount}`;
+}
+
+// inizializzo 2 account con 5000 e 1000 euro dentro
 let motherAccount = new BankAccount(5000);
 let sonAccount = new BankAccount(1000);
 
