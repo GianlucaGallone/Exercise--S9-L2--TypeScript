@@ -6,6 +6,7 @@ const CONT = document.querySelector('.container') as HTMLDivElement;
 
 const BTN_SALDO = document.querySelector('button[name="click_saldo"]') as HTMLButtonElement;
 const P_SALDO = document.querySelector('p[name="saldo"]') as HTMLElement;
+const P_TRANS = document.querySelector('p[name="transaction"]') as HTMLElement;
 
 /* ------------- Account Mother ------------- */
 
@@ -35,8 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if(P_SALDO !== null){
         BTN_SALDO.addEventListener('click', function(){
             P_SALDO.innerHTML = 
-                `Saldo Mother Account:  ${motherAccount.infoSaldo()} Euro
-                 Saldo Son Account: ${sonAccount.infoSaldo()} Euro
+                `Saldo Account 1:  ${motherAccount.infoSaldo()} Euro
+                 Saldo Account 2: ${sonAccount.infoSaldo()} Euro
                  Saldo totale: ${motherAccount.infoSaldo()+sonAccount.infoSaldo()} Euro`;
         });
     }
@@ -50,7 +51,7 @@ class BankAccount {
 
     constructor(saldoConto: number) {
         this.saldoConto = saldoConto;
-        BankAccount.transCount++;
+        /* BankAccount.transCount++; */
     }
     public infoSaldo(): number { // dato di ritorno del saldoConto
         return this.saldoConto;
@@ -90,14 +91,20 @@ function versaMother(): any {
         console.log(`${INPUT_VERSA.value}`);
         let result = `Nuovo saldo: ${motherAccount.infoSaldo() + (+INPUT_VERSA.value*0.9)} Euro`; // budget iniziale + (prelievo -10%); 
         P_VERSA.innerHTML = result;
+        BankAccount.transCount++;
+        P_TRANS.innerHTML = `Numero Transazioni: ${BankAccount.transCount}`;
     }
 }
+
+
 
 function prelevaMother(): any {
     if (INPUT_PRELEVA !== null) {
         console.log(`${INPUT_PRELEVA.value}`);
         let result = `Nuovo saldo: ${motherAccount.infoSaldo() - (+INPUT_PRELEVA.value*0.9)} Euro`; // budget iniziale - (prelievo -10%);
         P_PRELEVA.innerHTML = result;
+        BankAccount.transCount++;
+        P_TRANS.innerHTML = `Numero Transazioni: ${BankAccount.transCount}`;
     }
 }
 
@@ -108,6 +115,8 @@ function versaSon(): any {
         console.log(`${INP_VERSA_SON.value}`);
         let result = `Nuovo saldo: ${sonAccount.infoSaldo() + +INP_VERSA_SON.value} Euro`; // budget iniziale + prelievo;
         P_VERSA_SON.innerHTML = result;
+        BankAccount.transCount++;
+        P_TRANS.innerHTML = `Numero Transazioni: ${BankAccount.transCount}`;
     }
 }
 
@@ -116,6 +125,8 @@ function prelevaSon(): any {
         console.log(`${INP_PRELEVA_SON.value}`);
         let result = `Nuovo saldo: ${sonAccount.infoSaldo() - +INP_PRELEVA_SON.value} Euro`; // budget iniziale - prelievo;
         P_PRELEVA_SON.innerHTML = result;
+        BankAccount.transCount++;
+        P_TRANS.innerHTML = `Numero Transazioni: ${BankAccount.transCount}`;
     }
 }
 

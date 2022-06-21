@@ -4,6 +4,7 @@ const CONT = document.querySelector('.container');
 /* ------------- Schermata Benvenuto ------------- */
 const BTN_SALDO = document.querySelector('button[name="click_saldo"]');
 const P_SALDO = document.querySelector('p[name="saldo"]');
+const P_TRANS = document.querySelector('p[name="transaction"]');
 /* ------------- Account Mother ------------- */
 const INPUT_VERSA = document.querySelector('input[name="versa"]');
 const BTN_VERSA = document.querySelector('button[name="click_versa"]');
@@ -24,8 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (P_SALDO !== null) {
         BTN_SALDO.addEventListener('click', function () {
             P_SALDO.innerHTML =
-                `Saldo Mother Account:  ${motherAccount.infoSaldo()} Euro
-                 Saldo Son Account: ${sonAccount.infoSaldo()} Euro
+                `Saldo Account 1:  ${motherAccount.infoSaldo()} Euro
+                 Saldo Account 2: ${sonAccount.infoSaldo()} Euro
                  Saldo totale: ${motherAccount.infoSaldo() + sonAccount.infoSaldo()} Euro`;
         });
     }
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 class BankAccount {
     constructor(saldoConto) {
         this.saldoConto = saldoConto;
-        BankAccount.transCount++;
+        /* BankAccount.transCount++; */
     }
     infoSaldo() {
         return this.saldoConto;
@@ -68,6 +69,8 @@ function versaMother() {
         console.log(`${INPUT_VERSA.value}`);
         let result = `Nuovo saldo: ${motherAccount.infoSaldo() + (+INPUT_VERSA.value * 0.9)} Euro`; // budget iniziale + (prelievo -10%); 
         P_VERSA.innerHTML = result;
+        BankAccount.transCount++;
+        P_TRANS.innerHTML = `Numero Transazioni: ${BankAccount.transCount}`;
     }
 }
 function prelevaMother() {
@@ -75,6 +78,8 @@ function prelevaMother() {
         console.log(`${INPUT_PRELEVA.value}`);
         let result = `Nuovo saldo: ${motherAccount.infoSaldo() - (+INPUT_PRELEVA.value * 0.9)} Euro`; // budget iniziale - (prelievo -10%);
         P_PRELEVA.innerHTML = result;
+        BankAccount.transCount++;
+        P_TRANS.innerHTML = `Numero Transazioni: ${BankAccount.transCount}`;
     }
 }
 /* ------------------ Account Son -------------------- */
@@ -83,6 +88,8 @@ function versaSon() {
         console.log(`${INP_VERSA_SON.value}`);
         let result = `Nuovo saldo: ${sonAccount.infoSaldo() + +INP_VERSA_SON.value} Euro`; // budget iniziale + prelievo;
         P_VERSA_SON.innerHTML = result;
+        BankAccount.transCount++;
+        P_TRANS.innerHTML = `Numero Transazioni: ${BankAccount.transCount}`;
     }
 }
 function prelevaSon() {
@@ -90,6 +97,8 @@ function prelevaSon() {
         console.log(`${INP_PRELEVA_SON.value}`);
         let result = `Nuovo saldo: ${sonAccount.infoSaldo() - +INP_PRELEVA_SON.value} Euro`; // budget iniziale - prelievo;
         P_PRELEVA_SON.innerHTML = result;
+        BankAccount.transCount++;
+        P_TRANS.innerHTML = `Numero Transazioni: ${BankAccount.transCount}`;
     }
 }
 // inizializzo 2 account con 5000 E 1000 euro dentro
